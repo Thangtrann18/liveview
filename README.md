@@ -1,2 +1,1 @@
-# liveview
-live
+Delete file
