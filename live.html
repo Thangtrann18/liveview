@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>LiveView</title>
+  <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
+</head>
+<body>
+  <h2>Camera LiveView</h2>
+  <img id="stream" width="640" height="360" />
+
+  <script>
+    const broker = "wss://bdad6793a4f74ea586482fd4fdc88314.s1.eu.hivemq.cloud:8884/mqtt";
+    const options = {
+      username: "Thangtrann18",
+      password: "thangtran2002"
+    };
+
+    const client = mqtt.connect(broker, options);
+
+    client.on("connect", () => {
+      console.log("Đã kết nối MQTT WebSocket");
+      client.subscribe("test/webcam");
+    });
+
+    client.on("message", (topic, message) => {
+      // message = base64 string
+      const imgBase64 = message.toString();
+      document.getElementById("stream").src = "data:image/jpeg;base64," + imgBase64;
+    });
+  </script>
+</body>
+</html>
